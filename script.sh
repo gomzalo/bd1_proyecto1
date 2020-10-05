@@ -1,0 +1,1 @@
+sqlldr userid=[lab]bd1_proyecto1/123 control=[BD1]ArchivoControl.ctl
