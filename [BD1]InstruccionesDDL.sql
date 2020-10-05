@@ -5,12 +5,60 @@
 -- Gonzalo Antonio Garcia Solares - 201318652
 -- Proyecto 1
 
-CREATE DATABASE bd1_pro1;
+-- *******************************************************
+-- Test
 
+-- DROP
+
+DROP TABLE tipo;
+DROP TABLE compania;
+DROP TABLE categoria;
+DROP TABLE producto;
+DROP TABLE region;
+DROP TABLE ciudad;
+DROP TABLE codigo_postal;
+DROP TABLE persona;
+DROP TABLE transaccion;
+DROP TABLE temporal;
+
+-- SELECT
+
+SELECT * FROM tipo;
+SELECT * FROM compania;
+SELECT * FROM categoria;
+SELECT * FROM producto;
+SELECT * FROM region;
+SELECT * FROM ciudad;
+SELECT * FROM codigo_postal;
+SELECT * FROM persona;
+SELECT * FROM transaccion;
+SELECT * FROM temporal;
+
+-- Creando la base de datos
+-- CREATE DATABASE bd1_pro1;
+-- *******************************************************
 -- :::::::::::::::::::::::::::    DDL     :::::::::::::::::::::::::::
 -- Instrucciones para la creacion de la base y sus tablas previamente definidas en el ER.
 
+-- ***********  Creacion de tabla "tipo"    ***********
+CREATE TABLE tipo(
+    id_tipo INTEGER NOT NULL,
+    nombre_tipo CHAR NOT NULL
+);
 
+ALTER TABLE tipo ADD CONSTRAINT tipo_pk PRIMARY KEY ( id_tipo );
+-- *******************************************************
+-- ***********  Creacion de tabla "compania"    ***********
+CREATE TABLE compania(
+    id_compania INTEGER NOT NULL,
+    nombre_compania VARCHAR(100) NOT NULL,
+    contacto_compania VARCHAR(100) NOT NULL,
+    correo_compania VARCHAR(100) NOT NULL,
+    telefono_compania INTEGER NOT NULL
+);
+
+ALTER TABLE compania ADD CONSTRAINT compania_pk PRIMARY KEY ( id_compania );
+-- *******************************************************
 -- ***********  Creacion de tabla "categoria"  ***********
 CREATE TABLE categoria(
     id_categoria INTEGER NOT NULL,
@@ -18,6 +66,26 @@ CREATE TABLE categoria(
 );
 
 ALTER TABLE categoria ADD CONSTRAINT categoria_pk PRIMARY KEY ( id_categoria );
+-- *******************************************************
+
+--  *********** Creacion de tabla "producto"    ***********
+CREATE TABLE producto(
+    id_producto INTEGER NOT NULL,
+    producto VARCHAR(100) NOT NULL,
+    precio_unitario NUMBER(5, 2) NOT NULL,
+    categoria_id_categoria2  INTEGER NOT NULL
+);
+
+ALTER TABLE producto ADD CONSTRAINT producto_pk PRIMARY KEY ( id_producto );
+-- *******************************************************
+-- ***********  Creacion de tabla "region"  ***********
+CREATE TABLE region(
+    id_region INTEGER NOT NULL,
+    nombre_region VARCHAR(100) NOT NULL
+);
+
+ALTER TABLE region ADD CONSTRAINT region_pk PRIMARY KEY ( id_region );
+-- *******************************************************
 
 -- ***********  Creacion de tabla "ciudad"  ***********
 CREATE TABLE ciudad(
@@ -27,7 +95,7 @@ CREATE TABLE ciudad(
 );
 
 ALTER TABLE ciudad ADD CONSTRAINT ciudad_pk PRIMARY KEY ( id_ciudad );
-
+-- *******************************************************
 -- ***********  Creacion de tabla "codigo postal"  ***********
 
 CREATE TABLE codigo_postal (
@@ -37,18 +105,7 @@ CREATE TABLE codigo_postal (
 );
 
 ALTER TABLE codigo_postal ADD CONSTRAINT codigo_postal_pk PRIMARY KEY ( id_codigo_postal );
-
--- ***********  Creacion de tabla "compania"    ***********
-CREATE TABLE compania(
-    id_compania INTEGER NOT NULL,
-    nombre_compania VARCHAR(100) NOT NULL,
-    contacto_compania VARCHAR(100) NOT NULL,
-    correo_compania VARCHAR(100) NOT NULL,
-    telefono_compania INTEGER NOT NULL,
-);
-
-ALTER TABLE compania ADD CONSTRAINT compania_pk PRIMARY KEY ( id_compania );
-
+-- *******************************************************
 -- ***********  Creacion de tabla "factura" ***********
 -- CREATE TABLE factura(
 --     id_factura INTEGER PRIMARY KEY NOT NULL,
@@ -60,7 +117,7 @@ ALTER TABLE compania ADD CONSTRAINT compania_pk PRIMARY KEY ( id_compania );
 --     id_detalle INTEGER PRIMARY KEY NOT NULL,
 --     cantidad INTEGER NOT NULL
 -- );
-
+-- *******************************************************
 -- ***********  Creacion de tabla "persona" ***********
 CREATE TABLE persona(
     id_persona INTEGER NOT NULL,
@@ -68,39 +125,13 @@ CREATE TABLE persona(
     correo VARCHAR(100) NOT NULL,
     telefono VARCHAR(100) NOT NULL,
     fecha_registro DATE NOT NULL,
-    direccion VARCHAR(100) NOT NULL
+    direccion VARCHAR(100) NOT NULL,
     codigo_postal_id_codigo_postal  INTEGER,
     tipo_id_tipo                    INTEGER
 );
 
 ALTER TABLE persona ADD CONSTRAINT persona_pk PRIMARY KEY ( id_persona );
-
---  *********** Creacion de tabla "producto"    ***********
-CREATE TABLE producto(
-    id_producto INTEGER NOT NULL,
-    producto VARCHAR(100) NOT NULL,
-    precio_unitario NUMBER(5, 2) NOT NULL,
-    categoria_id_categoria2  INTEGER NOT NULL
-);
-
-ALTER TABLE producto ADD CONSTRAINT producto_pk PRIMARY KEY ( id_producto );
-
--- ***********  Creacion de tabla "region"  ***********
-CREATE TABLE region(
-    id_region INTEGER NOT NULL,
-    nombre_region VARCHAR(100) NOT NULL
-);
-
-ALTER TABLE region ADD CONSTRAINT region_pk PRIMARY KEY ( id_region );
-
--- ***********  Creacion de tabla "tipo"    ***********
-CREATE TABLE tipo(
-    id_tipo INTEGER NOT NULL,
-    nombre_tipo CHAR NOT NULL
-);
-
-ALTER TABLE tipo ADD CONSTRAINT tipo_pk PRIMARY KEY ( id_tipo );
-
+-- *******************************************************
 -- ***********  Creacion de tabla "transaccion"     ***********
 CREATE TABLE transaccion(
     no_transaccion INTEGER NOT NULL,
@@ -112,7 +143,7 @@ CREATE TABLE transaccion(
 );
 
 ALTER TABLE transaccion ADD CONSTRAINT transaccion_pk PRIMARY KEY ( no_transaccion );
-
+-- *******************************************************
 -- ||||||||||||||||||   Creando las claves foraneas |||||||||||||||||||||
 
 ALTER TABLE ciudad
@@ -153,3 +184,30 @@ ALTER TABLE transaccion
     ADD CONSTRAINT transaccion_producto_fk FOREIGN KEY ( producto_id_producto1 )
         REFERENCES producto ( id_producto )
             ON DELETE CASCADE;
+-- *******************************************************
+-- ||||||||||||||||||   Tabla temporal  ||||||||||||||||||
+-- Tabla utilizada para realizar la carga masiva
+
+CREATE TABLE temporal(
+    cod_temp NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+    nombre_compania VARCHAR(100),
+    contacto_compania VARCHAR(100),
+    correo_compania VARCHAR(100),
+    telefono_compania VARCHAR(100),
+    tipo VARCHAR(100),
+    nombre VARCHAR(100),
+    correo VARCHAR(100),
+    telefono VARCHAR(100),
+    fecha_registro DATE,
+    direccion VARCHAR(100),
+    ciudad VARCHAR(100),
+    codigo_postal NUMBER,
+    region VARCHAR(100),
+    producto VARCHAR(100),
+    categoria_producto VARCHAR(100),
+    cantidad NUMBER,
+    precio_unitario NUMERIC(38, 2)
+);
+
+-- *******************************************************
+-- *******************************************************
